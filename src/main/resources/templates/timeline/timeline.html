@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<section layout:fragment="content" class="contents d-flex justify-content-center">
+	<!-- 타임라인 영역 -->
+	<div class="container d-flex">
+			<div class="w-75 h-25 border-1 align-items-end">
+				<textarea class="border-0 w-100"></textarea>
+				<button class="btn btn-info ">게시</button>
+			</div>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+
+    </script>
+</th:block>
