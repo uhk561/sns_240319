@@ -13,12 +13,10 @@ public class PostBO {
 
 	@Autowired
 	private PostRepository postRepository;
-	
-	//  input: X
+
+	// input: X
 	// output: List<PostEntity>
 	public List<PostEntity> getPostEntityList() {
 		return postRepository.findByOrderByIdDesc();
 	}
 }
-
-

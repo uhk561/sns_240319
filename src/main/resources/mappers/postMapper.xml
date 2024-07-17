@@ -3,26 +3,11 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.sns.post.mapper.PostMapper">
- 	<select id="selectPostListTest" resultType="map">
- 			SELECT
- 			*
- 		FROM
- 			`post`
- 	</select>
- 	
- 	<select id="selectPostListByUserId" parameterType="int" resultType="com.sns.post.domain.Post">
- 		SELECT
-	 		`id`
-			,`userId`
-			,`subject`
-			,`content`
-			,`imagePath`
-			,`createdAt`
-			,`updatedAt`
+
+	<select id="selectPostListTest" resultType="map">
+		SELECT
+			*
 		FROM
 			`post`
-		WHERE
-			`userId` = #{userId}
-		ORDER BY `id` DESC
- 	</select>
- </mapper>
+	</select>
+</mapper>

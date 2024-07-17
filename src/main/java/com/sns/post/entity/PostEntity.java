@@ -28,20 +28,19 @@ public class PostEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
+	@Column(name = "userId")
 	private int userId;
-	
-	private String subject;
-	
+
 	private String content;
-	
+
 	@Column(name = "imagePath")
 	private String imagePath;
-	
+
 	@CreationTimestamp
 	@Column(name = "createdAt")
 	private LocalDateTime createdAt;
-	
+
 	@UpdateTimestamp
 	@Column(name = "updatedAt")
 	private LocalDateTime updatedAt;
