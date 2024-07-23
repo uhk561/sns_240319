@@ -16,7 +16,7 @@ import com.sns.user.entity.UserEntity;
 public class CommentBO {
 	@Autowired
 	private CommentMapper commentMapper;
-
+	
 	@Autowired
 	private UserBO userBO;
 	
@@ -27,27 +27,31 @@ public class CommentBO {
 	}
 	
 	// input:글번호    output:List<CommentView>
-		public List<CommentView> generateCommentViewListByPostId(int postId) {
-			List<CommentView> commentViewList = new ArrayList<>();
-
-			// 댓글들 가져옴
-			List<Comment> commentList = commentMapper.selectCommentListByPostId(postId);
-
-			// 반복문 순회 => Comment -> CommentView   => list에 담음
-			for (Comment comment : commentList) {
-				CommentView commentView = new CommentView();
-
-				// 댓글 1개
-				commentView.setComment(comment);
-
-				// 댓글쓰니
-				UserEntity user = userBO.getUserEntityById(comment.getUserId());
-				commentView.setUser(user);
-
-				//!!!!!! list에 넣기
-				commentViewList.add(commentView);
-			}
-
-			return commentViewList;
+	public List<CommentView> generateCommentViewListByPostId(int postId) {
+		List<CommentView> commentViewList = new ArrayList<>();
+		
+		// 댓글들 가져옴
+		List<Comment> commentList = commentMapper.selectCommentListByPostId(postId);
+		
+		// 반복문 순회 => Comment -> CommentView   => list에 담음
+		for (Comment comment : commentList) {
+			CommentView commentView = new CommentView();
+			
+			// 댓글 1개
+			commentView.setComment(comment);
+			
+			// 댓글쓰니
+			UserEntity user = userBO.getUserEntityById(comment.getUserId());
+			commentView.setUser(user);
+			
+			//!!!!!! list에 넣기
+			commentViewList.add(commentView);
 		}
+		
+		return commentViewList;
+	}
+	
+	public void deleteCommentById(int id) {
+		commentMapper.deleteCommentById(id);
+	}
 }

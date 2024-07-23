@@ -13,11 +13,11 @@ public interface CommentMapper {
 	public int insertComment(
 			@Param("postId") int postId, 
 			@Param("userId") int userId, 
-			@Param("content") String content); 
+			@Param("content") String content);
 	
-	public int selectCommentList();
+	public List<Comment> selectCommentList();
 	
 	public List<Comment> selectCommentListByPostId(int postId);
+	
+	public void deleteCommentById(int id);
 }
-
-
