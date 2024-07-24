@@ -30,8 +30,8 @@ public class TimelineBO {
 	@Autowired
 	private LikeBO likeBO;
 
-	// input:X    output: List<CardView>
-	public List<CardView> generateCardViewList() {
+	// input: userId(로그인 된 사람 번호)   output: List<CardView>
+	public List<CardView> generateCardViewList(Integer userId) {
 		List<CardView> cardViewList = new ArrayList<>();
 
 		// 글목록을 가져온다. List<PostEntity>
@@ -55,9 +55,13 @@ public class TimelineBO {
 			card.setCommentList(commentViewList);
 			
 			// 좋아요 개수
-		
+			int likeCount = likeBO.getLikeCountByPostId(post.getId());
+			card.setLikeCount(likeCount);
 			
-			// 좋아요를 눌렀나
+			
+			// 좋아요 여부 확인
+			card.setFilledLike(likeBO.filledLikeByPostIdUserId(post.getId(), userId));
+	
 			
 			//!!!!!!!!! 반드시 리스트에 넣는다.
 			cardViewList.add(card);

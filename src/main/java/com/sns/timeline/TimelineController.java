@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.sns.timeline.bo.TimelineBO;
 import com.sns.timeline.domain.CardView;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class TimelineController {
 
@@ -17,9 +19,11 @@ public class TimelineController {
 	private TimelineBO timelineBO;
 	
 	@GetMapping("/timeline/timeline-view")
-	public String timelineView(Model model) {
+	public String timelineView(Model model, HttpSession session) {
 		//List<PostEntity> postList = postBO.getPostEntityList();
-		List<CardView> cardViewList = timelineBO.generateCardViewList();
+		Integer userId = (Integer)session.getAttribute("userId");
+		List<CardView> cardViewList = timelineBO.generateCardViewList(userId);
+		
 		
 		// 모델에 담기
 		//model.addAttribute("postList", postList);

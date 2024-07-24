@@ -3,25 +3,44 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="com.sns.like.mapper.LikeMapper">
-	<select id="selectLikeCountByPostIdUserId" resultType="com.sns.like.domain.Like">
-		SELECT
-			`postId`
-			,`userId`
-			,`createdAt`
+ 	<!-- 아래 카운트쿼리 두개를 하나로 합친다 -->
+ 	<select id="selectLikeCountByPostIdOrUserId" parameterType="map" resultType="int">
+ 		SELECT
+			COUNT(1)
 		FROM
 			`like`
-		WHERE 
-		`postId` = #{postId}
-		AND
-		`userId` = #{userId}
-	</select> 
-	
+		WHERE
+			`postId` = #{postId}
+			<if test="userId != null">
+			AND `userId` = #{userId}
+			</if>
+ 	</select>
+ 
+	<select id="selectLikeCountByPostIdUserId" parameterType="map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			`like`
+		WHERE
+			`postId` = #{postId}
+			AND `userId` = #{userId}
+	</select>
+
+	<select id="selectLikeCountByPostId" parameterType="int" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			`like`
+		WHERE
+			`postId` = #{postId}
+	</select>
+
 	<insert id="insertLike" parameterType="map">
 		INSERT INTO `like`
 		(
 			`postId`
-			,`userId`
-			,`createdAt`
+			, `userId`
+			, `createdAt`
 		)
 		VALUES
 		(
@@ -29,27 +48,14 @@
 			, #{userId}
 			, NOW()
 		)
-		
 	</insert>
-	
-	<delete id="deleteLikeByUserIdAndPosetId" parameterType="int">
+
+	<delete id="deleteLikeByPostIdUserId" parameterType="map">
 		DELETE
 		FROM	
 			`like`
 		WHERE
-			`postId` =  #{postId}
-		AND
-			`userId` =  #{userId}
+			`postId` = #{postId}
+			AND `userId` = #{userId}
 	</delete>
-	
-	<select id="selectLikeByPostId" resultType="com.sns.like.domain.Like">
-		SELECT
-			`postId`
-			,`userId`
-			,`createdAt`
-		FROM
-			`like`
-		WHERE 
-		`postId` = #{postId}
-	</select> 
  </mapper>
