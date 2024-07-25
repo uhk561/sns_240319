@@ -69,4 +69,6 @@ public class TimelineBO {
 
 		return cardViewList;
 	}
+	
+	
 }
