@@ -24,15 +24,13 @@ public class PostBO {
 	private PostRepository postRepository;
 	
 	@Autowired
+	private FileManagerService fileManagerService;
+	
+	@Autowired
 	private CommentBO commentBO;
 	
 	@Autowired
 	private LikeBO likeBO;
-	
-	@Autowired
-	private FileManagerService fileManagerService;
-	
-	
 
 	// input: X
 	// output: List<PostEntity>
@@ -62,16 +60,17 @@ public class PostBO {
 			log.error("[delete post] postId:{}, userId:{}", postId, userId);
 			return;
 		}
-		
+
 		// 글 삭제
-		fileManagerService.deleteFile(post.getImagePath());
 		postRepository.delete(post);
-		
-		
-		// 댓글 삭제
-		commentBO.deleteCommentById(postId);
-		
-		// 좋아요 삭제
-		likeBO.deletePostByPostId(postId);
+
+		// 이미지 있으면 삭제
+		fileManagerService.deleteFile(post.getImagePath());
+
+		// 댓글들 삭제
+		commentBO.deleteCommentsByPostId(postId);
+
+		// 좋아요들 삭제
+		likeBO.deleteLikeByPostId(postId);
 	}
 }

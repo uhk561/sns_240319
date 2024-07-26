@@ -18,47 +18,64 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/post")
 @RestController
 public class PostRestController {
-	
+
 	@Autowired
 	private PostBO postBO;
-
+	
+	/**
+	 * 글쓰기 API
+	 * @param content
+	 * @param file
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/create")
 	public Map<String, Object> create(
 			@RequestParam(value = "content", required = false) String content,
 			@RequestParam("file") MultipartFile file,
 			HttpSession session) {
-
+		
 		Integer userId = (Integer) session.getAttribute("userId");
 		String userLoginId = (String) session.getAttribute("userLoginId");
-
+		
 		Map<String, Object> result = new HashMap<>();
 		if (userId == null) {
 			result.put("code", 403); // 비로그인 상태
 			result.put("error_message", "로그인을 해주세요.");
 			return result;
 		}
-
+		
 		postBO.addPost(userId, userLoginId, content, file);
-
+		
 		result.put("code", 200);
 		result.put("result", "성공");
 		return result;
 	}
 	
+	/**
+	 * 글 삭제 API
+	 * @param postId
+	 * @param session
+	 * @return
+	 */
 	@DeleteMapping("/delete")
 	public Map<String, Object> delete(
 			@RequestParam("postId") int postId,
 			HttpSession session) {
 		
-		int userId = (int)session.getAttribute("userId");
-		
-		// DB selete
-		postBO.deletePostByPostIdUserId(postId, userId);
-		
 		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인을 다시 해주세요.");
+			return result;
+		}
+		
+		postBO.deletePostByPostIdUserId(postId, userId);
 		result.put("code", 200);
 		result.put("result", "성공");
+		
 		return result;
-}
-
+	}
 }

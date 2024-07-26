@@ -7,11 +7,11 @@ import com.sns.like.domain.Like;
 
 @Mapper
 public interface LikeMapper {
-	
+
 //	public int selectLikeCountByPostIdUserId(
 //			@Param("postId") int postId,
 //			@Param("userId") int userId);
-
+	
 //	public int selectLikeCountByPostId(int postId);
 	
 	// 카운트 쿼리를 하나로 합친다.
@@ -22,13 +22,10 @@ public interface LikeMapper {
 	public void insertLike(
 			@Param("postId") int postId,
 			@Param("userId") int userId);
-
+	
 	public void deleteLikeByPostIdUserId(
 			@Param("postId") int postId,
 			@Param("userId") int userId);
 	
-	public void deletePostByPostId(int postId);
-
-	public int deleteLikeByPostId(int postId);
-	
+	public void deleteLikeByPostId(int postId);
 }
